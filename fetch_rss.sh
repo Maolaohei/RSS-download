@@ -2,6 +2,8 @@
 
 # 设置错误处理
 set -e
+# 配置
+RSS_URL="https://mikanani.me/RSS/MyBangumi?token=IGk45z8lAkK3Ub0o%2bltk%2bw%3d%3d"  # 替换为你的 RSS 链接
 
 # 检查 RSS_URL 是否存在
 if [ -z "$RSS_URL" ]; then
