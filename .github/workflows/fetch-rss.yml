@@ -1,0 +1,30 @@
+name: Fetch RSS Feed
+
+on:
+  schedule:
+    - cron: "0 * * * *"  # 每小时运行一次
+  workflow_dispatch:    # 允许手动触发
+
+jobs:
+  fetch-rss:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up CURL
+        run: sudo apt-get update && sudo apt-get install -y curl
+
+      - name: Download RSS Content
+        run: |
+          chmod +x fetch_rss.sh
+          ./fetch_rss.sh
+
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git add "$OUTPUT_FILE"
+          git commit -m "Update RSS feed at $(date -u +"%Y-%m-%dT%H:%M:%SZ")" || echo "No changes to commit"
+          git push
